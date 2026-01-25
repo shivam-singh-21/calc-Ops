@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Geometry Calculator | calc-ops</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Roboto", sans-serif;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+       background-color: #0b1517;
+      }
+      /* Navbar */
+      nav {
+        background: linear-gradient(90deg, #c03a12, #030949);
+        margin: 0 15px;
+        margin-top: 5px;
+        border-radius: 5px;
+        padding: 15px 20px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      nav .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      nav ul li a:hover {
+        color: #f1c40f;
+      }
+
+      /* Container */
+      .container {
+        background-color: #ecf0f1;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 500px;
+        margin: 40px auto;
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #2c3e50;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #2c3e50;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        background-color: #051a60;
+            color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      button:hover {
+        background: #2980b9;
+      }
+      .result {
+        margin-top: 20px;
+        background: #f3f8ff;
+        border-left: 4px solid #3498db;
+        padding: 10px;
+        border-radius: 8px;
+        display: none;
+      }
+      .result strong {
+        color: #3498db;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: auto;
+         margin-left: 15px;
+         margin-right: 15px;
+            border-radius: 10px;
+             background: linear-gradient(90deg, #c03a12, #030949);
+        color: white;
+        text-align: center;
+        padding: 20px 10px;
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        .container {
+          padding: 15px;
+          width: 95%;
+        }
+        input,
+        select,
+        button {
+          font-size: 14px;
+          padding: 8px;
+        }
+        nav ul {
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">CalcOps</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#operations">Calculator</a></li>
+      </ul>
+    </nav>
+
+    <div class="container" id="geometry">
+      <h2>Advanced Geometry Calculator</h2>
+
+      <label for="shape">Select Shape:</label>
+      <select id="shape" onchange="updateInputs()">
+        <optgroup label="2D Shapes">
+          <option value="square">Square</option>
+          <option value="rectangle">Rectangle</option>
+          <option value="circle">Circle</option>
+          <option value="triangle">Triangle</option>
+          <option value="rhombus">Rhombus</option>
+          <option value="parallelogram">Parallelogram</option>
+          <option value="trapezium">Trapezium</option>
+        </optgroup>
+        <optgroup label="3D Shapes">
+          <option value="cube">Cube</option>
+          <option value="cuboid">Cuboid</option>
+          <option value="cylinder">Cylinder</option>
+          <option value="cone">Cone</option>
+          <option value="sphere">Sphere</option>
+        </optgroup>
+      </select>
+
+      <div id="inputContainer"></div>
+
+      <button onclick="calculateGeometry()">Calculate</button>
+      <div id="geomResult" class="result"></div>
+    </div>
+
+    <footer>
+      &copy; 2025 CalcOps. All Rights Reserved. Designed with ❤️ for Learners
+    </footer>
+
+    <script>
+      function updateInputs() {
+        const shape = document.getElementById("shape").value;
+        const container = document.getElementById("inputContainer");
+        container.innerHTML = "";
+
+        switch (shape) {
+          case "square":
+            container.innerHTML =
+              '<label>Side:</label><input type="number" id="side" placeholder="Side"/>';
+            break;
+          case "rectangle":
+            container.innerHTML =
+              '<label>Length:</label><input type="number" id="length" placeholder="Length"/>' +
+              '<label>Width:</label><input type="number" id="width" placeholder="Width"/>';
+            break;
+          case "circle":
+            container.innerHTML =
+              '<label>Radius:</label><input type="number" id="radius" placeholder="Radius"/>';
+            break;
+          case "triangle":
+            container.innerHTML =
+              '<label>Base (optional for base-height method):</label><input type="number" id="base" placeholder="Base"/>' +
+              '<label>Height (optional for base-height method):</label><input type="number" id="height" placeholder="Height"/>' +
+              '<label>Side 1 (optional for 3-side method):</label><input type="number" id="side1" placeholder="Side 1"/>' +
+              '<label>Side 2 (optional for 3-side method):</label><input type="number" id="side2" placeholder="Side 2"/>' +
+              '<label>Side 3 (optional for 3-side method):</label><input type="number" id="side3" placeholder="Side 3"/>';
+            break;
+          case "rhombus":
+            container.innerHTML =
+              '<label>Diagonal 1 (optional for method 1):</label><input type="number" id="d1" placeholder="Diagonal 1"/>' +
+              '<label>Diagonal 2 (optional for method 1):</label><input type="number" id="d2" placeholder="Diagonal 2"/>' +
+              '<label>Side (optional for method 2):</label><input type="number" id="side" placeholder="Side"/>' +
+              '<label>Height (optional for method 2):</label><input type="number" id="height" placeholder="Height"/>';
+            break;
+          case "parallelogram":
+            container.innerHTML =
+              '<label>Base:</label><input type="number" id="base" placeholder="Base"/>' +
+              '<label>Height:</label><input type="number" id="height" placeholder="Height"/>' +
+              '<label>Side:</label><input type="number" id="side" placeholder="Side"/>';
+            break;
+          case "trapezium":
+            container.innerHTML =
+              '<label>Base 1:</label><input type="number" id="b1" placeholder="Base 1"/>' +
+              '<label>Base 2:</label><input type="number" id="b2" placeholder="Base 2"/>' +
+              '<label>Side 1:</label><input type="number" id="s1" placeholder="Side 1"/>' +
+              '<label>Side 2:</label><input type="number" id="s2" placeholder="Side 2"/>' +
+              '<label>Height:</label><input type="number" id="height" placeholder="Height"/>';
+            break;
+          case "cube":
+            container.innerHTML =
+              '<label>Side:</label><input type="number" id="side" placeholder="Side"/>';
+            break;
+          case "cuboid":
+            container.innerHTML =
+              '<label>Length:</label><input type="number" id="length" placeholder="Length"/>' +
+              '<label>Width:</label><input type="number" id="width" placeholder="Width"/>' +
+              '<label>Height:</label><input type="number" id="height" placeholder="Height"/>';
+            break;
+          case "cylinder":
+            container.innerHTML =
+              '<label>Radius:</label><input type="number" id="radius" placeholder="Radius"/>' +
+              '<label>Height:</label><input type="number" id="height" placeholder="Height"/>';
+            break;
+          case "cone":
+            container.innerHTML =
+              '<label>Radius:</label><input type="number" id="radius" placeholder="Radius"/>' +
+              '<label>Height:</label><input type="number" id="height" placeholder="Height"/>';
+            break;
+          case "sphere":
+            container.innerHTML =
+              '<label>Radius:</label><input type="number" id="radius" placeholder="Radius"/>';
+            break;
+        }
+      }
+
+      function calculateGeometry() {
+        const shape = document.getElementById("shape").value;
+        const resultDiv = document.getElementById("geomResult");
+        let resultText = "";
+
+        function isValid(...nums) {
+          return nums.every((n) => !isNaN(n) && n > 0);
+        }
+
+        switch (shape) {
+          case "square":
+            const s = parseFloat(document.getElementById("side").value);
+            if (!isValid(s)) {
+              showError();
+              return;
+            }
+            resultText += `Area: ${s * s} <br> Perimeter: ${4 * s}`;
+            break;
+          case "rectangle":
+            const l = parseFloat(document.getElementById("length").value);
+            const w = parseFloat(document.getElementById("width").value);
+            if (!isValid(l, w)) {
+              showError();
+              return;
+            }
+            resultText += `Area: ${l * w} <br> Perimeter: ${2 * (l + w)}`;
+            break;
+          case "circle":
+            const r = parseFloat(document.getElementById("radius").value);
+            if (!isValid(r)) {
+              showError();
+              return;
+            }
+            resultText += `Area: ${(Math.PI * r * r).toFixed(
+              2
+            )} <br> Circumference: ${(2 * Math.PI * r).toFixed(2)}`;
+            break;
+          case "triangle":
+            const base = parseFloat(document.getElementById("base").value);
+            const height = parseFloat(document.getElementById("height").value);
+            const side1 = parseFloat(document.getElementById("side1").value);
+            const side2 = parseFloat(document.getElementById("side2").value);
+            const side3 = parseFloat(document.getElementById("side3").value);
+
+            if (!isNaN(base) && !isNaN(height) && base > 0 && height > 0) {
+              const area1 = 0.5 * base * height;
+              let perimeter1 = isValid(side1, side2, side3)
+                ? side1 + side2 + side3
+                : "Cannot calculate (sides missing)";
+              resultText += `Area (base-height method): ${area1.toFixed(
+                2
+              )} <br> Perimeter: ${perimeter1}`;
+            } else if (isValid(side1, side2, side3)) {
+              const s = (side1 + side2 + side3) / 2;
+              const area2 = Math.sqrt(
+                s * (s - side1) * (s - side2) * (s - side3)
+              );
+              resultText += `Area (3-side method): ${area2.toFixed(
+                2
+              )} <br> Perimeter: ${(side1 + side2 + side3).toFixed(2)}`;
+            } else {
+              showError();
+              return;
+            }
+            break;
+          case "rhombus":
+            const d1 = parseFloat(document.getElementById("d1").value);
+            const d2 = parseFloat(document.getElementById("d2").value);
+            const sideRh = parseFloat(document.getElementById("side").value);
+            const heightRh = parseFloat(
+              document.getElementById("height")?.value
+            );
+
+            if (!isNaN(d1) && !isNaN(d2) && d1 > 0 && d2 > 0) {
+              const area1 = 0.5 * d1 * d2;
+              let perimeter1 =
+                isNaN(sideRh) || sideRh <= 0
+                  ? "Cannot calculate (side not provided)"
+                  : 4 * sideRh;
+              resultText += `Area (diagonals method): ${area1.toFixed(
+                2
+              )} <br> Perimeter: ${perimeter1}`;
+            } else if (
+              !isNaN(sideRh) &&
+              !isNaN(heightRh) &&
+              sideRh > 0 &&
+              heightRh > 0
+            ) {
+              const area2 = sideRh * heightRh;
+              resultText += `Area (side-height method): ${area2.toFixed(
+                2
+              )} <br> Perimeter: ${(4 * sideRh).toFixed(2)}`;
+            } else {
+              showError();
+              return;
+            }
+            break;
+          case "parallelogram":
+            const baseP = parseFloat(document.getElementById("base").value);
+            const heightP = parseFloat(document.getElementById("height").value);
+            const sideP = parseFloat(document.getElementById("side").value);
+            if (!isValid(baseP, heightP, sideP)) {
+              showError();
+              return;
+            }
+            resultText += `Area: ${(baseP * heightP).toFixed(
+              2
+            )} <br> Perimeter: ${(2 * (baseP + sideP)).toFixed(2)}`;
+            break;
+          case "trapezium":
+            const b1 = parseFloat(document.getElementById("b1").value);
+            const b2 = parseFloat(document.getElementById("b2").value);
+            const s1 = parseFloat(document.getElementById("s1").value);
+            const s2 = parseFloat(document.getElementById("s2").value);
+            const hT = parseFloat(document.getElementById("height").value);
+            if (!isValid(b1, b2, s1, s2, hT)) {
+              showError();
+              return;
+            }
+            resultText += `Area: ${(((b1 + b2) / 2) * hT).toFixed(
+              2
+            )} <br> Perimeter: ${(b1 + b2 + s1 + s2).toFixed(2)}`;
+            break;
+          case "cube":
+            const sideC = parseFloat(document.getElementById("side").value);
+            if (!isValid(sideC)) {
+              showError();
+              return;
+            }
+            resultText += `Surface Area: ${(6 * sideC * sideC).toFixed(
+              2
+            )} <br> Edge Sum: ${(12 * sideC).toFixed(2)} <br> Volume: ${(
+              sideC ** 3
+            ).toFixed(2)}`;
+            break;
+          case "cuboid":
+            const lC = parseFloat(document.getElementById("length").value);
+            const wC = parseFloat(document.getElementById("width").value);
+            const hC = parseFloat(document.getElementById("height").value);
+            if (!isValid(lC, wC, hC)) {
+              showError();
+              return;
+            }
+            resultText += `Surface Area: ${(
+              2 *
+              (lC * wC + wC * hC + lC * hC)
+            ).toFixed(2)} <br> Volume: ${(lC * wC * hC).toFixed(2)}`;
+            break;
+          case "cylinder":
+            const rC = parseFloat(document.getElementById("radius").value);
+            const hCyl = parseFloat(document.getElementById("height").value);
+            if (!isValid(rC, hCyl)) {
+              showError();
+              return;
+            }
+            resultText += `Surface Area: ${(
+              2 *
+              Math.PI *
+              rC *
+              (rC + hCyl)
+            ).toFixed(2)} <br> Volume: ${(Math.PI * rC * rC * hCyl).toFixed(
+              2
+            )}`;
+            break;
+          case "cone":
+            const rCone = parseFloat(document.getElementById("radius").value);
+            const hCone = parseFloat(document.getElementById("height").value);
+            if (!isValid(rCone, hCone)) {
+              showError();
+              return;
+            }
+            const lCone = Math.sqrt(rCone * rCone + hCone * hCone);
+            resultText += `Surface Area: ${(
+              Math.PI *
+              rCone *
+              (rCone + lCone)
+            ).toFixed(2)} <br> Volume: ${(
+              (Math.PI * rCone * rCone * hCone) /
+              3
+            ).toFixed(2)}`;
+            break;
+          case "sphere":
+            const rS = parseFloat(document.getElementById("radius").value);
+            if (!isValid(rS)) {
+              showError();
+              return;
+            }
+            resultText += `Surface Area: ${(4 * Math.PI * rS * rS).toFixed(
+              2
+            )} <br> Volume: ${((4 / 3) * Math.PI * rS ** 3).toFixed(2)}`;
+            break;
+        }
+
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = `<strong>Result:</strong><br>${resultText}`;
+
+        function showError() {
+          resultDiv.style.display = "block";
+          resultDiv.innerHTML =
+            "<strong>Error:</strong> Invalid or missing input(s)";
+        }
+      }
+
+      updateInputs();
+    </script>
+  </body>
+</html>

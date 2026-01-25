@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quadratic Equation Solver | calc-ops</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Roboto", sans-serif;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #0b1517;
+        color: #2c3e50;
+      }
+
+      nav {
+        background: linear-gradient(90deg, #c03a12, #030949);
+        margin: 0 15px;
+        margin-top: 5px;
+        border-radius: 5px;
+        padding: 15px 20px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      nav .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      nav ul li a:hover {
+        color: #f1c40f;
+      }
+
+      .container {
+        background: #ecf0f1;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 400px;
+        margin: 50px auto;
+        text-align: center;
+      }
+      h1 {
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+        color: #2c3e50;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin: 8px 0 5px;
+      }
+      input {
+        width: 80%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-align: center;
+      }
+      button {
+        background-color: #051a60;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      button:hover {
+        background: #2980b9;
+      }
+      .result {
+        margin-top: 20px;
+        background: #f3f8ff;
+        border-left: 4px solid #3498db;
+        padding: 15px;
+        border-radius: 10px;
+        display: none;
+      }
+      .highlight {
+        color: #9b59b6;
+        font-weight: bold;
+      }
+
+      footer {
+        margin-top: auto;
+        margin-left: 15px;
+        margin-right: 15px;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #c03a12, #030949);
+        color: white;
+        text-align: center;
+        padding: 20px 10px;
+      }
+
+      @media (max-width: 480px) {
+        input {
+          width: 90%;
+        }
+        .container {
+          padding: 20px;
+          margin: 30px;
+        }
+        nav ul {
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">CalcOps</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#operations">Calculator</a></li>
+      </ul>
+    </nav>
+
+    <div class="container" id="calc">
+      <h1>Quadratic Equation Solver</h1>
+      <label for="a">Enter a:</label>
+      <input type="number" id="a" placeholder="e.g. 1" />
+      <label for="b">Enter b:</label>
+      <input type="number" id="b" placeholder="e.g. 5" />
+      <label for="c">Enter c:</label>
+      <input type="number" id="c" placeholder="e.g. 6" />
+
+      <button onclick="solveQuadratic()">Find Discriminant & Roots</button>
+      <div id="result" class="result"></div>
+    </div>
+
+    <footer>
+      &copy; 2025 CalcOps. All Rights Reserved.<br />Designed with ❤️ for
+      Learners
+    </footer>
+
+    <script>
+      function solveQuadratic() {
+        const a = parseFloat(document.getElementById("a").value);
+        const b = parseFloat(document.getElementById("b").value);
+        const c = parseFloat(document.getElementById("c").value);
+        const resultDiv = document.getElementById("result");
+        resultDiv.style.display = "none";
+        resultDiv.innerHTML = "";
+        if (isNaN(a) || isNaN(b) || isNaN(c)) {
+          resultDiv.style.display = "block";
+          resultDiv.innerHTML =
+            "⚠️ Please enter valid numbers for a, b, and c.";
+          return;
+        }
+        if (a === 0) {
+          resultDiv.style.display = "block";
+          resultDiv.innerHTML =
+            "⚠️ The value of 'a' cannot be 0 for a quadratic equation.";
+          return;
+        }
+        const D = b * b - 4 * a * c;
+        let nature = "",
+          roots = "";
+        if (D > 0) {
+          const r1 = (-b + Math.sqrt(D)) / (2 * a);
+          const r2 = (-b - Math.sqrt(D)) / (2 * a);
+          nature = "Two distinct real roots.";
+          roots = `x₁=${r1.toFixed(3)}, x₂=${r2.toFixed(3)}`;
+        } else if (D === 0) {
+          const r = (-b / (2 * a)).toFixed(3);
+          nature = "One real root (repeated).";
+          roots = `x₁=x₂=${r}`;
+        } else {
+          const real = (-b / (2 * a)).toFixed(3);
+          const imag = (Math.sqrt(-D) / (2 * a)).toFixed(3);
+          nature = "Complex roots.";
+          roots = `x₁=${real}+${imag}i, x₂=${real}-${imag}i`;
+        }
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = `<strong>Equation:</strong> ${a}x² + ${b}x + ${c} = 0<br><br><strong>Discriminant (D):</strong> <span class="highlight">${D}</span><br><strong>Nature of Roots:</strong> ${nature}<br><strong>Solution:</strong> ${roots}`;
+      }
+    </script>
+  </body>
+</html>

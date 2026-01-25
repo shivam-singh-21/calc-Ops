@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calc-ops |Math Operations Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+     <meta name="keywords" content="calc-ops,calc ops,mathematics operation,math operation hub,mathematical solution,maths hub,matrix calculator,coversion,geometric operation,multiple operation,airthmetic,maths,maths answer">
+    <style>
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #0b1517;
+        }
+        nav {
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #c03a12, #030949);
+            margin: 0 15px;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li a {
+            color: rgb(255, 255, 255);
+            font-weight: bolder;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #ab8a8a;
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(90deg, #071f5a, #c44124); 
+            margin-top: 1rem;
+            margin-left: 15px;
+            margin-right: 15px;
+    border-radius: 15px;
+            color: white;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1rem;
+        }
+
+        .operations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            padding: 40px 20px;
+        }
+        .card {
+            background-color: #bdbebe;
+            /* background: linear-gradient(90deg, #071f5a, #c44124);  */
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        .card p{
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        .card button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #051a60;
+            color: white;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .card button:hover {
+            background-color: #4e88ad;
+            color: black;
+        }
+#about{
+    color:white;
+      background: linear-gradient(90deg, #071f5a, #c44124); 
+    margin: 0 15px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+}
+ 
+        footer {
+            margin-top: auto;
+            
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            margin:0 15px;
+            border-radius: 10px;
+             background: linear-gradient(90deg, #c03a12, #030949);
+        }
+
+       
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: row;
+                gap: 10px;
+            }
+            header h1 {
+                font-size: 1.5rem;
+            }
+            header p{
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+ 
+    <nav>
+        <div class="logo">CalcOps</div>
+        <ul>
+            <li><a href="#operations">Operations</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+
+    <header>
+        <h1>Welcome to CalcOps</h1>
+        
+        
+        <p>Perform arithmetic, matrix, geometric, and advanced calculations like Factorial,Quadratic equation,Conversion (Distance,Temperature,Mass) etc all in one place!</p>
+    </header>
+
+    
+    <section id="operations" class="operations">
+        <div class="card">
+            <h3>Arithmetic Calculator</h3>
+            <button onclick="window.location.href='airthmetic.html'">Go</button>
+        </div>
+        <div class="card">
+            <h3>Matrix Operations</h3>
+            <p>(Add,Subs,Mul,Transpose etc)</p>
+            <button onclick="window.location.href='matrix.html'">Go</button>
+
+        </div>
+        <div class="card">
+            <h3>Geometric Calculator</h3>
+            <p>(2D and 3D shapes)</p>
+            <button onclick="window.location.href='shapesOp.html'">Go</button>
+        </div>
+        <div class="card">
+            <h3>Measurement Converter</h3>
+            <p>(Distance,Mass,Temperature)</p>
+            <button onclick="window.location.href='measure.html'">Go</button>
+
+        </div>
+        <div class="card">
+            <h3>Multiple Operation</h3>
+            <p>(Power,Squre Root,Factorial etc.)</p>
+            <button onclick="window.location.href='mulOperation.html'">Go</button>
+
+        </div>
+        <div class="card">
+            <h3>Quadratic Equation</h3>
+            <button onclick="window.location.href='discriminant.html'">Go</button>
+
+        </div>
+    </section>
+
+ 
+    <section id="about" style="padding:40px 20px; text-align:center;">
+        <h2>About This Hub</h2>
+        
+    <p>Welcome to CalcOps - your one-stop platform for solving complex mathematical problems.
+        Whether you're a student, teacher, engineer, or lifelong learner, we simplify your journey through numbers.</p>
+       
+    </section>
+
+    <footer>
+        &copy; 2025 CalcOps. All Rights Reserved.
+    <br>
+   Designed with ❤️ for Learners
+    </footer>
+
+</body>
+</html>

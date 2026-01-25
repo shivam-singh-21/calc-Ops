@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arithmetic Calculator |calc-ops</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Roboto", sans-serif;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #0b1517;
+      }
+      nav {
+        background: linear-gradient(90deg, #c03a12, #030949);
+        margin: 0 15px;
+        margin-top: 5px;
+        border-radius: 5px;
+        padding: 15px 20px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      nav .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      nav ul li a:hover {
+        color: #f1c40f;
+      }
+      .container {
+        background: #ecf0f1;
+        padding: 30px 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        margin: 50px auto;
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #2c3e50;
+      }
+      input {
+        width: 100%;
+        height: 60px;
+        font-size: 24px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid #ccc;
+        margin-bottom: 20px;
+      }
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      button {
+        padding: 20px;
+        font-size: 20px;
+        border: none;
+        border-radius: 10px;
+        background-color: #020b28;
+        color: white;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      button:hover {
+        background: #555;
+      }
+      .equal {
+        background: #6d023d;
+      }
+      .equal:hover {
+        background: #0072cc;
+      }
+      .clear {
+        background: #ff4b4b;
+      }
+      .clear:hover {
+        background: #d93636;
+      }
+      footer {
+        margin-top: auto;
+        margin-left: 15px;
+        margin-right: 15px;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #c03a12, #030949);
+        color: white;
+        text-align: center;
+        padding: 20px 10px;
+      }
+      @media (max-width: 768px) {
+        nav ul {
+          gap: 10px;
+        }
+        .container {
+          width: 95%;
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <div class="logo">CalcOps</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#operations">Calculator</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <h2>Arithmetic Calculator</h2>
+
+      <input id="display" type="text" placeholder="0" readonly />
+
+      <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">C</button>
+        <button onclick="appendValue('/')">/</button>
+        <button onclick="addModulus()">%</button>
+
+        <button onclick="backspace()">⌫</button>
+
+        <button onclick="appendValue('7')">7</button>
+        <button onclick="appendValue('8')">8</button>
+        <button onclick="appendValue('9')">9</button>
+
+        <button onclick="appendValue('*')">*</button>
+
+        <button onclick="appendValue('4')">4</button>
+        <button onclick="appendValue('5')">5</button>
+        <button onclick="appendValue('6')">6</button>
+        <button onclick="appendValue('-')">-</button>
+
+        <button onclick="appendValue('1')">1</button>
+        <button onclick="appendValue('2')">2</button>
+        <button onclick="appendValue('3')">3</button>
+        <button onclick="appendValue('+')">+</button>
+
+        <button onclick="appendValue('0')" style="grid-column: span 2">
+          0
+        </button>
+        <button onclick="appendValue('.')">.</button>
+        <button class="equal" onclick="calculate()">=</button>
+      </div>
+    </div>
+
+    <footer>
+      &copy; 2025 CalcOps. All rights reserved.<br />Made with ❤️ for learners.
+    </footer>
+
+    <script>
+      const display = document.getElementById("display");
+      let expression = "";
+
+      const operators = ["+", "-", "*", "/", "%"];
+
+      function appendValue(val) {
+        if (display.value === "Error") {
+          expression = "";
+        }
+
+        if (operators.includes(val)) {
+          if (expression === "" || operators.includes(expression.slice(-1))) {
+            return;
+          }
+        }
+
+        expression += val;
+        display.value = expression;
+      }
+
+      function clearDisplay() {
+        expression = "";
+        display.value = "";
+      }
+
+      function backspace() {
+        expression = expression.slice(0, -1);
+        display.value = expression;
+      }
+
+      function calculate() {
+        try {
+          if (expression === "") return;
+
+          if (operators.includes(expression.slice(-1))) return;
+
+          let result = eval(expression);
+
+          if (result === Infinity || isNaN(result)) {
+            display.value = "Error";
+            expression = "";
+            return;
+          }
+
+          expression = String(result);
+          display.value = expression;
+        } catch {
+          display.value = "Error";
+          expression = "";
+        }
+      }
+
+      function addModulus() {
+        appendValue("%");
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (!isNaN(e.key)) appendValue(e.key);
+
+        if (operators.includes(e.key)) appendValue(e.key);
+
+        if (e.key === "Enter" || e.key === "=") {
+          e.preventDefault();
+          calculate();
+        }
+
+        if (e.key === "Backspace") {
+          e.preventDefault();
+          backspace();
+        }
+
+        if (e.key.toLowerCase() === "c") clearDisplay();
+      });
+    </script>
+  </body>
+</html>

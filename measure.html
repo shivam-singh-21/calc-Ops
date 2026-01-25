@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit Converter | calc-ops</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Roboto", sans-serif;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #0b1517;
+      }
+
+      nav {
+        background: linear-gradient(90deg, #c03a12, #030949);
+        margin: 0 15px;
+        margin-top: 5px;
+        border-radius: 5px;
+        padding: 15px 20px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      nav .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      nav ul li a:hover {
+        color: #f1c40f;
+      }
+
+      .container {
+        background: #ecf0f1;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 420px;
+        margin: 50px auto;
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #2c3e50;
+      }
+      .tabs {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .tab-btn {
+        flex: 1;
+        background: #f0f0f0;
+        color: #2c3e50;
+        border: none;
+        padding: 10px;
+        font-weight: 600;
+        border-radius: 8px;
+        margin: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .tab-btn.active {
+        background: #042338;
+        color: white;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #2c3e50;
+      }
+      select,
+      input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        background-color: #051a60;
+            color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      button:hover {
+        background: #2980b9;
+      }
+      .result {
+        margin-top: 20px;
+        background: #f3f8ff;
+        border-left: 4px solid #3498db;
+        padding: 10px;
+        border-radius: 8px;
+        display: none;
+      }
+      .converter {
+        display: none;
+      }
+      .converter.active {
+        display: block;
+      }
+
+      footer {
+        margin-top: auto;
+         margin-left: 15px;
+         margin-right: 15px;
+            border-radius: 10px;
+             background: linear-gradient(90deg, #c03a12, #030949);
+        color: white;
+        text-align: center;
+        padding: 20px 10px;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 15px;
+        }
+        select,
+        input,
+        button {
+          font-size: 14px;
+          padding: 8px;
+        }
+        .tab-btn {
+          font-size: 13px;
+          padding: 8px;
+        }
+        nav ul {
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">CalcOps</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#operations">Converter</a></li>
+      </ul>
+    </nav>
+
+    <div class="container" id="calc">
+      <h2>Unit Converter</h2>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('distance')">
+          Distance
+        </button>
+        <button class="tab-btn" onclick="showTab('mass')">Mass</button>
+        <button class="tab-btn" onclick="showTab('temperature')">
+          Temperature
+        </button>
+      </div>
+
+      <!-- Distance -->
+      <div id="distance" class="converter active">
+        <label>Enter Distance:</label>
+        <input type="number" id="distValue" placeholder="Enter value" />
+        <label>From:</label>
+        <select id="fromDistance">
+          <option value="m">Meter (m)</option>
+          <option value="cm">Centimeter (cm)</option>
+          <option value="km">Kilometer (km)</option>
+          <option value="mm">Millimeter (mm)</option>
+          <option value="mile">Mile</option>
+          <option value="yard">Yard</option>
+          <option value="foot">Foot</option>
+          <option value="inch">Inch</option>
+        </select>
+        <label>To:</label>
+        <select id="toDistance">
+          <option value="m">Meter (m)</option>
+          <option value="cm">Centimeter (cm)</option>
+          <option value="km">Kilometer (km)</option>
+          <option value="mm">Millimeter (mm)</option>
+          <option value="mile">Mile</option>
+          <option value="yard">Yard</option>
+          <option value="foot">Foot</option>
+          <option value="inch">Inch</option>
+        </select>
+        <button onclick="convertDistance()">Convert</button>
+        <div id="distanceResult" class="result"></div>
+      </div>
+
+      <!-- Mass -->
+      <div id="mass" class="converter">
+        <label>Enter Mass:</label>
+        <input type="number" id="massValue" placeholder="Enter value" />
+        <label>From:</label>
+        <select id="fromMass">
+          <option value="kg">Kilogram (kg)</option>
+          <option value="g">Gram (g)</option>
+          <option value="mg">Milligram (mg)</option>
+          <option value="lb">Pound (lb)</option>
+          <option value="oz">Ounce (oz)</option>
+          <option value="metricTon">Metric Ton</option>
+          <option value="usTon">US Ton</option>
+        </select>
+        <label>To:</label>
+        <select id="toMass">
+          <option value="kg">Kilogram (kg)</option>
+          <option value="g">Gram (g)</option>
+          <option value="mg">Milligram (mg)</option>
+          <option value="lb">Pound (lb)</option>
+          <option value="oz">Ounce (oz)</option>
+          <option value="metricTon">Metric Ton</option>
+          <option value="usTon">US Ton</option>
+        </select>
+        <button onclick="convertMass()">Convert</button>
+        <div id="massResult" class="result"></div>
+      </div>
+
+      <!-- Temperature -->
+      <div id="temperature" class="converter">
+        <label>Enter Temperature:</label>
+        <input type="number" id="tempValue" placeholder="Enter value" />
+        <label>From:</label>
+        <select id="fromTemp">
+          <option value="C">Celsius (°C)</option>
+          <option value="F">Fahrenheit (°F)</option>
+          <option value="K">Kelvin (K)</option>
+        </select>
+        <label>To:</label>
+        <select id="toTemp">
+          <option value="C">Celsius (°C)</option>
+          <option value="F">Fahrenheit (°F)</option>
+          <option value="K">Kelvin (K)</option>
+        </select>
+        <button onclick="convertTemperature()">Convert</button>
+        <div id="tempResult" class="result"></div>
+      </div>
+    </div>
+
+    <footer>
+      &copy; 2025 CalcOps. All Rights Reserved.<br />Designed with ❤️ for
+      Learners
+    </footer>
+
+    <script>
+      function showTab(tabName) {
+        document
+          .querySelectorAll(".converter")
+          .forEach((div) => div.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        document.getElementById(tabName).classList.add("active");
+        event.target.classList.add("active");
+      }
+      const distanceRates = {
+        m: 1,
+        cm: 100,
+        km: 0.001,
+        mm: 1000,
+        mile: 0.000621371,
+        yard: 1.09361,
+        foot: 3.28084,
+        inch: 39.3701,
+      };
+      function convertDistance() {
+        const value = parseFloat(document.getElementById("distValue").value);
+        const from = document.getElementById("fromDistance").value;
+        const to = document.getElementById("toDistance").value;
+        const res = document.getElementById("distanceResult");
+        if (isNaN(value)) {
+          res.style.display = "block";
+          res.innerHTML = "<strong>Error:</strong> Enter valid number.";
+          return;
+        }
+        const inM = value / distanceRates[from];
+        const conv = inM * distanceRates[to];
+        res.style.display = "block";
+        res.innerHTML = `<strong>Result:</strong> ${value} ${from} = <strong>${conv.toFixed(
+          4
+        )} ${to}</strong>`;
+      }
+      const massRates = {
+        kg: 1,
+        g: 1000,
+        mg: 1000000,
+        lb: 2.20462,
+        oz: 35.274,
+        metricTon: 0.001,
+        usTon: 0.00110231,
+      };
+      function convertMass() {
+        const value = parseFloat(document.getElementById("massValue").value);
+        const from = document.getElementById("fromMass").value;
+        const to = document.getElementById("toMass").value;
+        const res = document.getElementById("massResult");
+        if (isNaN(value)) {
+          res.style.display = "block";
+          res.innerHTML = "<strong>Error:</strong> Enter valid number.";
+          return;
+        }
+        const inKg = value / massRates[from];
+        const conv = inKg * massRates[to];
+        res.style.display = "block";
+        res.innerHTML = `<strong>Result:</strong> ${value} ${from} = <strong>${conv.toFixed(
+          4
+        )} ${to}</strong>`;
+      }
+      function convertTemperature() {
+        const value = parseFloat(document.getElementById("tempValue").value);
+        const from = document.getElementById("fromTemp").value;
+        const to = document.getElementById("toTemp").value;
+        const res = document.getElementById("tempResult");
+        if (isNaN(value)) {
+          res.style.display = "block";
+          res.innerHTML = "<strong>Error:</strong> Enter valid number.";
+          return;
+        }
+        let tempC;
+        if (from === "C") tempC = value;
+        else if (from === "F") tempC = ((value - 32) * 5) / 9;
+        else tempC = value - 273.15;
+        let conv;
+        if (to === "C") conv = tempC;
+        else if (to === "F") conv = (tempC * 9) / 5 + 32;
+        else conv = tempC + 273.15;
+        res.style.display = "block";
+        res.innerHTML = `<strong>Result:</strong> ${value} ${from} = <strong>${conv.toFixed(
+          2
+        )} ${to}</strong>`;
+      }
+    </script>
+  </body>
+</html>

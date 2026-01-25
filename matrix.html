@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matrix Calculator | calc-ops</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Roboto", sans-serif;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+       background-color: #0b1517;
+        color: #2c3e50;
+      }
+
+      /* Navbar */
+      nav {
+        background: linear-gradient(90deg, #c03a12, #030949);
+        margin: 0 15px;
+        margin-top: 5px;
+        border-radius: 5px;
+        padding: 15px 20px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      nav .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      nav ul li a:hover {
+        color: #f1c40f;
+      }
+
+      h1 {
+        text-align: center;
+        margin: 30px 0 15px;
+        color: white;
+      }
+
+      /* Container */
+      #opt {
+        width: 90%;
+        max-width: 600px;
+        background: #ecf0f1;
+        margin: 0 auto 40px;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      select,
+      input,
+      button {
+        padding: 10px;
+        margin: 8px 5px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+      }
+
+      button {
+        background-color: #051a60;
+            color: white;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      button:hover {
+        background: #2980b9;
+      }
+
+      .matrix {
+        margin: 10px;
+        display: grid;
+        gap: 6px;
+        justify-content: center;
+      }
+
+      .matrix input {
+        text-align: center;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #aaa;
+        font-size: 15px;
+        width: 55px;
+        height: 40px;
+      }
+
+      #matrixContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 15px;
+      }
+
+      #result {
+        margin-top: 20px;
+        background: #f3f8ff;
+        border-left: 4px solid #3498db;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        overflow-x: auto;
+        margin-inline: auto;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin: auto;
+      }
+
+      td {
+        border: 1px solid #888;
+        padding: 8px;
+        text-align: center;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: auto;
+        color: white;
+         margin-left: 15px;
+         margin-right: 15px;
+            border-radius: 10px;
+             background: linear-gradient(90deg, #c03a12, #030949);
+        text-align: center;
+        padding: 20px 10px;
+      }
+
+      @media (max-width: 768px) {
+        nav ul {
+          flex-direction: row;
+          gap: 10px;
+        }
+        #opt {
+          width: 95%;
+          padding: 15px;
+        }
+        .matrix {
+          grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+          gap: 5px;
+        }
+        .matrix input {
+          width: 100%;
+          height: 45px;
+          font-size: 16px;
+        }
+        #result {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">CalcOps</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#operations">Calculator</a></li>
+      </ul>
+    </nav>
+
+    <h1>Matrix Calculator</h1>
+
+    <div id="opt">
+      <div>
+        <label>Select Operation:</label>
+        <select id="operation">
+          <option value="">--Choose Operation--</option>
+          <option value="add">Addition</option>
+          <option value="sub">Subtraction</option>
+          <option value="mul">Multiplication</option>
+          <option value="trans">Transpose</option>
+        </select>
+        <button onclick="askMatrixSize()">Next</button>
+      </div>
+
+      <div id="sizeInput"></div>
+      <div id="matrixContainer"></div>
+      <div id="result"></div>
+    </div>
+
+    <footer>
+      &copy; 2025 CalcOps. All Rights Reserved.<br />Designed with ❤️ for
+      Learners
+    </footer>
+
+    <script>
+      let operation = "";
+
+      function askMatrixSize() {
+        operation = document.getElementById("operation").value;
+        if (!operation) return alert("Please select an operation!");
+
+        document.getElementById("sizeInput").innerHTML = "";
+        document.getElementById("matrixContainer").innerHTML = "";
+        document.getElementById("result").innerHTML = "";
+
+        if (operation === "trans") {
+          document.getElementById("sizeInput").innerHTML = `
+          <h3>Enter size of Matrix</h3>
+          <input type="number" id="rowsA" placeholder="Rows" min="1">
+          <input type="number" id="colsA" placeholder="Columns" min="1">
+          <button onclick="createMatrixInputs('single')">Create Matrix</button>
+        `;
+        } else {
+          document.getElementById("sizeInput").innerHTML = `
+          <h3>Enter size of Matrix A</h3>
+          <input type="number" id="rowsA" placeholder="Rows" min="1">
+          <input type="number" id="colsA" placeholder="Columns" min="1"><br>
+          <h3>Enter size of Matrix B</h3>
+          <input type="number" id="rowsB" placeholder="Rows" min="1">
+          <input type="number" id="colsB" placeholder="Columns" min="1">
+          <button onclick="createMatrixInputs('double')">Create Matrices</button>
+        `;
+        }
+      }
+
+      function createMatrixInputs(type) {
+        const container = document.getElementById("matrixContainer");
+        const result = document.getElementById("result");
+        container.innerHTML = "";
+        result.innerHTML = "";
+
+        let rowsA = +document.getElementById("rowsA").value;
+        let colsA = +document.getElementById("colsA").value;
+
+        if (type === "single") {
+          if (rowsA <= 0 || colsA <= 0) return alert("Enter valid size!");
+          container.innerHTML += `<h3>Matrix A</h3>${createMatrixHTML(
+            "A",
+            rowsA,
+            colsA
+          )}`;
+          container.innerHTML += `<button onclick="calculate()">Calculate</button>`;
+        } else {
+          let rowsB = +document.getElementById("rowsB").value;
+          let colsB = +document.getElementById("colsB").value;
+          if (rowsA <= 0 || colsA <= 0 || rowsB <= 0 || colsB <= 0)
+            return alert("Enter valid sizes!");
+
+          if (
+            (operation === "add" || operation === "sub") &&
+            (rowsA !== rowsB || colsA !== colsB)
+          ) {
+            result.innerHTML = `<b>❌ For ${
+              operation === "add" ? "Addition" : "Subtraction"
+            }: Both matrices must have the same dimensions.</b>`;
+            return;
+          }
+          if (operation === "mul" && colsA !== rowsB) {
+            result.innerHTML = `<b>❌ For Multiplication: Columns of A must equal Rows of B.</b>`;
+            return;
+          }
+
+          container.innerHTML += `<h3>Matrix A</h3>${createMatrixHTML(
+            "A",
+            rowsA,
+            colsA
+          )}`;
+          container.innerHTML += `<h3>Matrix B</h3>${createMatrixHTML(
+            "B",
+            rowsB,
+            colsB
+          )}`;
+          container.innerHTML += `<button onclick="calculate()">Calculate</button>`;
+        }
+      }
+
+      function createMatrixHTML(name, rows, cols) {
+        let html = `<div class="matrix" id="matrix${name}" style="grid-template-columns: repeat(${cols}, 1fr);">`;
+        for (let i = 0; i < rows * cols; i++) {
+          html += `<input type="number" step="any" id="${name}${i}">`;
+        }
+        html += `</div>`;
+        return html;
+      }
+
+      function getMatrix(name, rows, cols) {
+        let mat = [];
+        for (let i = 0; i < rows; i++) {
+          let row = [];
+          for (let j = 0; j < cols; j++) {
+            row.push(
+              parseFloat(
+                document.getElementById(`${name}${i * cols + j}`).value
+              ) || 0
+            );
+          }
+          mat.push(row);
+        }
+        return mat;
+      }
+
+      function calculate() {
+        const resDiv = document.getElementById("result");
+        resDiv.innerHTML = "";
+
+        let rowsA = +document.getElementById("rowsA").value;
+        let colsA = +document.getElementById("colsA").value;
+
+        let A = getMatrix("A", rowsA, colsA);
+        let result;
+
+        if (operation === "trans") {
+          result = transpose(A);
+        } else {
+          let rowsB = +document.getElementById("rowsB").value;
+          let colsB = +document.getElementById("colsB").value;
+          let B = getMatrix("B", rowsB, colsB);
+
+          if (operation === "add") result = add(A, B);
+          else if (operation === "sub") result = subtract(A, B);
+          else if (operation === "mul") result = multiply(A, B);
+        }
+
+        resDiv.innerHTML = "<h3>Result:</h3>" + matrixToTable(result);
+      }
+
+      function add(A, B) {
+        return A.map((row, i) => row.map((val, j) => val + B[i][j]));
+      }
+
+      function subtract(A, B) {
+        return A.map((row, i) => row.map((val, j) => val - B[i][j]));
+      }
+
+      function multiply(A, B) {
+        const res = Array.from({ length: A.length }, () =>
+          Array(B[0].length).fill(0)
+        );
+        for (let i = 0; i < A.length; i++) {
+          for (let j = 0; j < B[0].length; j++) {
+            for (let k = 0; k < A[0].length; k++) {
+              res[i][j] += A[i][k] * B[k][j];
+            }
+          }
+        }
+        return res;
+      }
+
+      function transpose(A) {
+        return A[0].map((_, j) => A.map((row) => row[j]));
+      }
+
+      function matrixToTable(M) {
+        let html = "<table>";
+        M.forEach((row) => {
+          html +=
+            "<tr>" + row.map((val) => `<td>${val}</td>`).join("") + "</tr>";
+        });
+        html += "</table>";
+        return html;
+      }
+    </script>
+  </body>
+</html>
